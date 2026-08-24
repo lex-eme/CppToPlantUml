@@ -1,0 +1,67 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide empty members
+
+
+class AHexGrid {
+    + TopLeftBound: FVector
+    + BottomRightBound: FVector
+    + StartHexes: TArray<FHex>
+    + Map: UMapData*
+    + Path: TArray<FHex>
+
+    # TileSize: float
+    # GroundMesh: UStaticMesh*
+    # GroundMaterial: UMaterialInterface*
+    # GridMesh: UStaticMesh*
+    # GridMaterial: UMaterialInterface*
+    # Tiles: TMap<FHex, FTile>
+    # DebugCoord: ETileDebugType
+    # ResourceBlueprint: TSubclassOf<AResource>
+    # BuildingBlueprint: TSubclassOf<ABuilding>
+    # UnitBlueprint: TSubclassOf<AUnit>
+
+    - Ism: UInstancedStaticMeshComponent*
+    - GridIsm: UInstancedStaticMeshComponent*
+    - TextRenderComponents: TMap<FHex, UTextRenderComponent*>
+    - TileWeights: TMap<FHex, int>
+    - LastTotalWeight: int
+
+    + AHexGrid()
+
+    + SetMapData(NewMapData: UMapData*): void
+    + HasTile(Hex: FHex): bool
+    + GetTile(Hex: FHex, OutTile: FTile&): bool
+    + ComputeWeights(): void
+    + GetRandomWeightedTile(FoundHex: FHex&): bool
+    + GetHex(Index: int32): FHex
+    + GetHex(Location: FVector&): FHex
+    + GetNeighborHexes(Hex: FHex, OutNeighbors: TArray<FHex>&): void
+    +<FTile> GetNeighbors(Tile: FTile&): TSet
+    + GetTileLocation(Hex: FHex): FVector
+    + AddTileState(Hex: FHex, State: ETileState): void
+    + RemoveTileState(Hex: FHex, State: ETileState): void
+    + AddEntity(Entity: AEntity*, To: FHex): void
+    + SendEntity(Unit: AUnit*, To: FHex): void
+    + MoveEntity(Unit: AUnit*, To: FHex): void
+    + RemoveEntity(Location: FHex): void
+    + SpawnEnemy(Descriptor: FEnemyDescriptor, Enemy: AEnemy*): void
+    + SearchPath(From: FHex, To: FHex): bool
+    + Refresh(): void
+
+    # BeginPlay(): void
+    # OnConstruction(const FTransform& Transform): void
+    # DebugFindTileCoord: FOffsetCoord
+    # DebugTile: FTile
+    # DebugFindTile(): void
+
+    - SpawnTile(Descriptor: FTileDescriptor&): void
+    - ComputeBounds(): void
+    - GetTileColor(Hex: FHex, Color: FLinearColor&): void
+    - UpdateTileColor(Hex: FHex): void
+    - {static} SetIsmColor(UInstancedStaticMeshComponent* Ism, int Index, const FLinearColor& Color): void
+}
+@enduml
