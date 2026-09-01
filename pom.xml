@@ -16,6 +16,7 @@
         <antlr.version>4.13.2</antlr.version>
         <ST4.version>4.3.4</ST4.version>
         <spotify.fmt.version>2.29</spotify.fmt.version>
+        <maven-jar.version>3.5.1</maven-jar.version>
     </properties>
 
     <dependencies>
@@ -35,6 +36,12 @@
             <groupId>com.spotify.fmt</groupId>
             <artifactId>fmt-maven-plugin</artifactId>
             <version>${spotify.fmt.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>${maven-jar.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -69,6 +76,20 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.lexeme.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>

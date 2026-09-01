@@ -26,7 +26,7 @@ enum class ETileDebugType : uint8
 class AHexGrid : public AActor
 {
 public:
-	FVector* TopLeftBound;
+	FVector TopLeftBound;
 	FVector BottomRightBound;
 	TArray<FHex> StartHexes;
 	UMapData* Map;

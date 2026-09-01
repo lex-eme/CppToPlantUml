@@ -12,13 +12,13 @@ class AHexGrid {
     + StartHexes: TArray<FHex>
     + Map: UMapData*
     + Path: TArray<FHex>
-
+    + PathCost: int
     # TileSize: float
     # GroundMesh: UStaticMesh*
     # GroundMaterial: UMaterialInterface*
     # GridMesh: UStaticMesh*
     # GridMaterial: UMaterialInterface*
-    # Tiles: TMap<FHex, FTile>
+    # Tiles: TMap<FHex,FTile>
     # DebugCoord: ETileDebugType
     # ResourceBlueprint: TSubclassOf<AResource>
     # BuildingBlueprint: TSubclassOf<ABuilding>
@@ -26,12 +26,9 @@ class AHexGrid {
 
     - Ism: UInstancedStaticMeshComponent*
     - GridIsm: UInstancedStaticMeshComponent*
-    - TextRenderComponents: TMap<FHex, UTextRenderComponent*>
-    - TileWeights: TMap<FHex, int>
+    - TextRenderComponents: TMap<FHex,UTextRenderComponent*>
     - LastTotalWeight: int
-
     + AHexGrid()
-
     + SetMapData(NewMapData: UMapData*): void
     + HasTile(Hex: FHex): bool
     + GetTile(Hex: FHex, OutTile: FTile&): bool
@@ -40,7 +37,7 @@ class AHexGrid {
     + GetHex(Index: int32): FHex
     + GetHex(Location: FVector&): FHex
     + GetNeighborHexes(Hex: FHex, OutNeighbors: TArray<FHex>&): void
-    +<FTile> GetNeighbors(Tile: FTile&): TSet
+    + GetNeighbors(Tile: FTile&): TSet<FTile>
     + GetTileLocation(Hex: FHex): FVector
     + AddTileState(Hex: FHex, State: ETileState): void
     + RemoveTileState(Hex: FHex, State: ETileState): void
@@ -50,10 +47,11 @@ class AHexGrid {
     + RemoveEntity(Location: FHex): void
     + SpawnEnemy(Descriptor: FEnemyDescriptor, Enemy: AEnemy*): void
     + SearchPath(From: FHex, To: FHex): bool
+    + SearchCrossPath(From: FHex, To: FHex, CrossLength: int): bool
     + Refresh(): void
 
     # BeginPlay(): void
-    # OnConstruction(const FTransform& Transform): void
+    # OnConstruction(Transform: FTransform&): void
     # DebugFindTileCoord: FOffsetCoord
     # DebugTile: FTile
     # DebugFindTile(): void
@@ -62,6 +60,7 @@ class AHexGrid {
     - ComputeBounds(): void
     - GetTileColor(Hex: FHex, Color: FLinearColor&): void
     - UpdateTileColor(Hex: FHex): void
-    - {static} SetIsmColor(UInstancedStaticMeshComponent* Ism, int Index, const FLinearColor& Color): void
+    - SetIsmColor(Ism: UInstancedStaticMeshComponent*, Index: int, Color: FLinearColor&): void
+    - TileWeights: TMap<FHex,int>
 }
 @enduml

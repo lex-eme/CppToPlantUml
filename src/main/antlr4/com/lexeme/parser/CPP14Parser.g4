@@ -32,7 +32,7 @@ options {
 
 // Insert here @header for C++ parser.
 @header {
-import antlr4.com.eno.parser.CPP14ParserBase;
+import com.lexeme.parser.CPP14ParserBase;
 }
 
 /*Basic concepts*/
