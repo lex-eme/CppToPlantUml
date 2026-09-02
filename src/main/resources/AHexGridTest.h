@@ -7,14 +7,16 @@
 #include "GameFramework/Actor.h"
 #include "HexGrid.generated.h"
 
-class AClass;
-
-
 enum class ETileDebugType : uint8
 {
     Probability,
     Weight,
 };
+
+enum ETile {
+    Test,
+    Test2
+}
 
 struct FTile {
     int Type = 0;

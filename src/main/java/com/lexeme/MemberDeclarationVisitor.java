@@ -1,9 +1,9 @@
 package com.lexeme;
 
-import com.lexeme.member.ClassMember;
-import com.lexeme.member.Function;
-import com.lexeme.member.Variable;
-import com.lexeme.member.VariableType;
+import com.lexeme.aggregate.member.ClassMember;
+import com.lexeme.aggregate.member.Function;
+import com.lexeme.aggregate.member.Variable;
+import com.lexeme.aggregate.member.VariableType;
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
 

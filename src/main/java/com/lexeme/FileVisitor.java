@@ -1,9 +1,9 @@
 package com.lexeme;
 
-import com.lexeme.member.ClassDescriptor;
-import com.lexeme.member.ClassMember;
-import com.lexeme.member.ClassType;
-import com.lexeme.member.Visibility;
+import com.lexeme.aggregate.ClassDescriptor;
+import com.lexeme.aggregate.ClassType;
+import com.lexeme.aggregate.member.ClassMember;
+import com.lexeme.aggregate.member.Visibility;
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
 import java.util.ArrayList;
@@ -34,6 +34,14 @@ public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
 
   @Override
   public Void visitClassHead(CPP14Parser.ClassHeadContext ctx) {
+    if (ctx.classKey() != null) {
+      if (ctx.classKey().start.getType() == CPP14Parser.Class) {
+        classDescriptorList.get(classIndex).classType = ClassType.CLASS;
+      } else if (ctx.classKey().start.getType() == CPP14Parser.Struct) {
+        classDescriptorList.get(classIndex).classType = ClassType.STRUCT;
+      }
+    }
+
     if (ctx.classHeadName() != null) {
       classDescriptorList.get(classIndex).name = ctx.classHeadName().getText();
     }
@@ -41,21 +49,6 @@ public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
     visitChildren(ctx);
     currentVisibility = Visibility.PRIVATE;
 
-    return null;
-  }
-
-  @Override
-  public Void visitClassKey(CPP14Parser.ClassKeyContext ctx) {
-    if (ctx.Class() != null) {
-      classDescriptorList.get(classIndex).classType = ClassType.CLASS;
-    } else if (ctx.Struct() != null) {
-      classDescriptorList.get(classIndex).classType = ClassType.STRUCT;
-    }
-    return null;
-  }
-
-  @Override
-  public Void visitElaboratedTypeSpecifier(CPP14Parser.ElaboratedTypeSpecifierContext ctx) {
     return null;
   }
 

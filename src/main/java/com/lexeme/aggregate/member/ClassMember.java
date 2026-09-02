@@ -1,6 +1,6 @@
-package com.lexeme.member;
+package com.lexeme.aggregate.member;
 
-public class ClassMember {
+public abstract class ClassMember {
   public Visibility visibility = Visibility.PRIVATE;
   public String name = "";
   public String type = "";

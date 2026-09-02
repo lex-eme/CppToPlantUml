@@ -1,4 +1,4 @@
-package com.lexeme.member;
+package com.lexeme.aggregate.member;
 
 public enum Visibility {
   PUBLIC("+"),

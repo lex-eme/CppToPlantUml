@@ -1,5 +1,8 @@
-package com.lexeme.member;
+package com.lexeme.aggregate;
 
+import com.lexeme.aggregate.member.ClassMember;
+import com.lexeme.aggregate.member.Function;
+import com.lexeme.aggregate.member.Variable;
 import java.util.ArrayList;
 import java.util.List;
 

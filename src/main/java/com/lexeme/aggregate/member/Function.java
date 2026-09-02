@@ -1,4 +1,4 @@
-package com.lexeme.member;
+package com.lexeme.aggregate.member;
 
 import java.util.ArrayList;
 import java.util.List;
