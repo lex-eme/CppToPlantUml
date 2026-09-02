@@ -396,3 +396,17 @@ Newline: ('\r' '\n'? | '\n') -> skip;
 BlockComment: '/*' .*? '*/' -> skip;
 
 LineComment: '//' ~ [\r\n]* -> skip;
+
+Uclass: 'UCLASS' LeftParen .*? RightParen -> skip;
+
+Ustruct: 'USTRUCT' LeftParen .*? RightParen -> skip;
+
+GeneratedBody: 'GENERATED_BODY' LeftParen .*? RightParen -> skip;
+
+Uproperty: 'UPROPERTY' LeftParen .*? RightParen -> skip;
+
+Ufunction: 'UFUNCTION' LeftParen .*? RightParen -> skip;
+
+Uenum: 'UENUM' LeftParen .*? RightParen -> skip;
+
+Umeta: 'UMETA' LeftParen .*? RightParen -> skip;

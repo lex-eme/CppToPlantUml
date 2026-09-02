@@ -14,46 +14,67 @@ class AUnit;
 class UMapData;
 class UTextRenderComponent;
 
+UENUM()
 enum class ETileDebugType : uint8
 {
-	None,
-	Cube,
-	Offset,
-	Weight,
-	Probability,
+	None UMETA(DisplayName="None"),
+	Cube UMETA(DisplayName="Cube"),
+	Offset UMETA(DisplayName="Offset"),
+	Weight UMETA(DisplayName="Weight"),
+	Probability UMETA(DisplayName="Probability"),
 };
 
-class AHexGrid : public AActor
+UCLASS()
+class TRPG_PROJET_API AHexGrid : public AActor
 {
+	GENERATED_BODY()
+
 public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FVector TopLeftBound;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FVector BottomRightBound;
+	UPROPERTY()
 	TArray<FHex> StartHexes;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMapData* Map;
+	UPROPERTY()
 	TArray<FHex> Path;
-	int PathCost;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TileSize = 100.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMesh* GroundMesh;
+	UPROPERTY(EditAnywhere)
 	UMaterialInterface* GroundMaterial;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMesh* GridMesh;
+	UPROPERTY(EditAnywhere)
 	UMaterialInterface* GridMaterial;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TMap<FHex, FTile> Tiles;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Debug")
 	ETileDebugType DebugCoord = ETileDebugType::None;
 
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<AResource> ResourceBlueprint;
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABuilding> BuildingBlueprint;
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<AUnit> UnitBlueprint;
 
 private:
+	UPROPERTY()
 	UInstancedStaticMeshComponent* Ism;
+	UPROPERTY()
 	UInstancedStaticMeshComponent* GridIsm;
 
+	UPROPERTY()
 	TMap<FHex, UTextRenderComponent*> TextRenderComponents;
 	int LastTotalWeight = 1;
 
@@ -83,16 +104,19 @@ public:
 	void SpawnEnemy(FEnemyDescriptor Descriptor, AEnemy* Enemy);
 
 	bool SearchPath(FHex From, FHex To);
-	bool SearchCrossPath(FHex From, FHex To, int CrossLength);
 
+	UFUNCTION(CallInEditor, Category="Debug")
 	void Refresh();
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 
+	UPROPERTY(EditAnywhere, Category="Debug")
 	FOffsetCoord DebugFindTileCoord;
+	UPROPERTY(VisibleAnywhere, Category="Debug")
 	FTile DebugTile;
+	UFUNCTION(CallInEditor, Category="Debug")
 	void DebugFindTile();
 
 

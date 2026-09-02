@@ -7,31 +7,26 @@
 #include "GameFramework/Actor.h"
 #include "HexGrid.generated.h"
 
-enum ETile {
-    Test,
-    Test2
-}
-
-class AHexGrid : public AActor
+UCLASS()
+class TRPG_PROJET_API AHexGrid : public AActor
 {
-    struct FTile {
-        int Type = 0;
-    }
-
-    enum class ETileDebugType : uint8
-    {
-        Probability,
-        Weight,
-    };
-
-    int Coucou;
+	GENERATED_BODY()
 
 public:
-    FHex GetHex(const FVector& Location) const;
-	void AddEntity(AEntity* Entity, FHex To);
-	void* SetMapData(UMapData* NewMapData);
-	AHexGrid();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FVector TopLeftBound;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TileSize = 100.0f;
 
 private:
-	static void SetIsmColor(UInstancedStaticMeshComponent* Ism, int Index, const FLinearColor& Color);
+	int LastTotalWeight = 1;
+
+public:
+	AHexGrid();
+
+	void SetMapData(UMapData* NewMapData);
+	UFUNCTION(CallInEditor, Category="Debug")
+	void Refresh();
 };

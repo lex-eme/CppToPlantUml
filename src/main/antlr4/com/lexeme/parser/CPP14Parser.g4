@@ -782,7 +782,7 @@ classSpecifier
     ;
 
 classHead
-    : classKey attributeSpecifierSeq? (classHeadName classVirtSpecifier?)? baseClause?
+    : classKey Identifier? attributeSpecifierSeq? (classHeadName classVirtSpecifier?)? baseClause?
     | Union attributeSpecifierSeq? ( classHeadName classVirtSpecifier?)?
     ;
 
