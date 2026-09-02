@@ -2,30 +2,60 @@ package com.lexeme;
 
 import com.lexeme.member.ClassDescriptor;
 import com.lexeme.member.ClassMember;
+import com.lexeme.member.ClassType;
 import com.lexeme.member.Visibility;
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
   private Visibility currentVisibility = Visibility.PRIVATE;
-  private final ClassDescriptor currentClass = new ClassDescriptor();
+  private final List<ClassDescriptor> classDescriptorList = new ArrayList<>();
+  private int classIndex = 0;
 
   @Override
   public Void visitTranslationUnit(CPP14Parser.TranslationUnitContext ctx) {
+    classIndex = -1;
     visitChildren(ctx);
-    System.out.println(currentClass);
+    for (ClassDescriptor classDescriptor : classDescriptorList) {
+      System.out.println(classDescriptor);
+    }
+    return null;
+  }
+
+  @Override
+  public Void visitClassSpecifier(CPP14Parser.ClassSpecifierContext ctx) {
+    classDescriptorList.add(new ClassDescriptor());
+    classIndex += 1;
+    visitChildren(ctx);
     return null;
   }
 
   @Override
   public Void visitClassHead(CPP14Parser.ClassHeadContext ctx) {
+    if (ctx.classHeadName() != null) {
+      classDescriptorList.get(classIndex).name = ctx.classHeadName().getText();
+    }
+
     visitChildren(ctx);
     currentVisibility = Visibility.PRIVATE;
 
-    if (ctx.classHeadName() != null) {
-      currentClass.name = ctx.classHeadName().getText();
-    }
+    return null;
+  }
 
+  @Override
+  public Void visitClassKey(CPP14Parser.ClassKeyContext ctx) {
+    if (ctx.Class() != null) {
+      classDescriptorList.get(classIndex).classType = ClassType.CLASS;
+    } else if (ctx.Struct() != null) {
+      classDescriptorList.get(classIndex).classType = ClassType.STRUCT;
+    }
+    return null;
+  }
+
+  @Override
+  public Void visitElaboratedTypeSpecifier(CPP14Parser.ElaboratedTypeSpecifierContext ctx) {
     return null;
   }
 
@@ -47,7 +77,7 @@ public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
     ClassMember member = visitor.visit(ctx);
     if (member != null) {
       member.visibility = currentVisibility;
-      currentClass.addClassMember(member);
+      classDescriptorList.get(classIndex).addClassMember(member);
     }
     return null;
   }

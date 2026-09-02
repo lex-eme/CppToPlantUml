@@ -1,13 +1,12 @@
 package com.lexeme.member;
 
-public enum Visibility {
-  PUBLIC("+"),
-  PROTECTED("#"),
-  PRIVATE("-");
+public enum ClassType {
+  CLASS("class"),
+  STRUCT("struct");
 
   private final String symbol;
 
-  Visibility(String symbol) {
+  ClassType(String symbol) {
     this.symbol = symbol;
   }
 

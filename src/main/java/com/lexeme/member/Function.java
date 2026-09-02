@@ -9,7 +9,7 @@ public class Function extends ClassMember {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(visibility.symbol);
+    stringBuilder.append(visibility);
     stringBuilder.append(" ");
     stringBuilder.append(name);
     stringBuilder.append("(");
@@ -19,7 +19,7 @@ public class Function extends ClassMember {
       stringBuilder.append(parameter.name);
       stringBuilder.append(": ");
       stringBuilder.append(parameter.type);
-      stringBuilder.append(parameter.variableType.symbol);
+      stringBuilder.append(parameter.variableType);
 
       if (i + 1 < parameters.size()) {
         stringBuilder.append(", ");

@@ -10,14 +10,19 @@
 class AClass;
 
 
-struct ATileDebugType: public AActor
+enum class ETileDebugType : uint8
 {
-	int Probability;
+    Probability,
+    Weight,
 };
+
+struct FTile {
+    int Type = 0;
+}
 
 class AHexGrid : public AActor
 {
-    int Couou;
+    int Coucou;
 
 public:
     FHex GetHex(const FVector& Location) const;

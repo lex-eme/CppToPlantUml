@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ClassDescriptor {
   public String name;
+  public ClassType classType = ClassType.CLASS;
   public List<Variable> variables = new ArrayList<>();
   public List<Function> functions = new ArrayList<>();
 
@@ -20,8 +21,14 @@ public class ClassDescriptor {
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
 
-    stringBuilder.append("class ");
+    stringBuilder.append(classType);
+    stringBuilder.append(" ");
     stringBuilder.append(name);
+
+    if (classType == ClassType.STRUCT) {
+      stringBuilder.append(" <<struct>>");
+    }
+
     stringBuilder.append(" {\n");
 
     for (var variable : variables) {

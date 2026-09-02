@@ -5,9 +5,14 @@ public enum VariableType {
   REFERENCE("&"),
   NONE("");
 
-  public final String symbol;
+  private final String symbol;
 
   VariableType(String symbol) {
     this.symbol = symbol;
+  }
+
+  @Override
+  public String toString() {
+    return symbol;
   }
 }
