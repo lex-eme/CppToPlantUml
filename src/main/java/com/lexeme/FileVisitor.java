@@ -1,9 +1,9 @@
 package com.lexeme;
 
-import com.lexeme.umlclass.ClassDescriptor;
-import com.lexeme.umlclass.ClassVisitor;
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
+import com.lexeme.umlclass.ClassDescriptor;
+import com.lexeme.umlclass.ClassVisitor;
 import com.lexeme.umlenum.EnumDescriptor;
 import com.lexeme.umlenum.EnumVisitor;
 
