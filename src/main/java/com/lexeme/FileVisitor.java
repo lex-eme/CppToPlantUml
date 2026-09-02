@@ -1,76 +1,30 @@
 package com.lexeme;
 
-import com.lexeme.aggregate.ClassDescriptor;
-import com.lexeme.aggregate.ClassType;
-import com.lexeme.aggregate.member.ClassMember;
-import com.lexeme.aggregate.member.Visibility;
+import com.lexeme.umlclass.ClassDescriptor;
+import com.lexeme.umlclass.ClassVisitor;
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
-import java.util.ArrayList;
-import java.util.List;
+import com.lexeme.umlenum.EnumDescriptor;
+import com.lexeme.umlenum.EnumVisitor;
 
 public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
-  private Visibility currentVisibility = Visibility.PRIVATE;
-  private final List<ClassDescriptor> classDescriptorList = new ArrayList<>();
-  private int classIndex = 0;
-
-  @Override
-  public Void visitTranslationUnit(CPP14Parser.TranslationUnitContext ctx) {
-    classIndex = -1;
-    visitChildren(ctx);
-    for (ClassDescriptor classDescriptor : classDescriptorList) {
-      System.out.println(classDescriptor);
-    }
-    return null;
-  }
-
   @Override
   public Void visitClassSpecifier(CPP14Parser.ClassSpecifierContext ctx) {
-    classDescriptorList.add(new ClassDescriptor());
-    classIndex += 1;
+    ClassVisitor classVisitor = new ClassVisitor();
+    classVisitor.visit(ctx);
+    ClassDescriptor classDescriptor = classVisitor.getClassDescriptor();
+    System.out.println(classDescriptor);
     visitChildren(ctx);
     return null;
   }
 
   @Override
-  public Void visitClassHead(CPP14Parser.ClassHeadContext ctx) {
-    if (ctx.classKey() != null) {
-      if (ctx.classKey().start.getType() == CPP14Parser.Class) {
-        classDescriptorList.get(classIndex).classType = ClassType.CLASS;
-        currentVisibility = Visibility.PRIVATE;
-      } else if (ctx.classKey().start.getType() == CPP14Parser.Struct) {
-        classDescriptorList.get(classIndex).classType = ClassType.STRUCT;
-        currentVisibility = Visibility.PUBLIC;
-      }
-    }
-
-    if (ctx.classHeadName() != null) {
-      classDescriptorList.get(classIndex).name = ctx.classHeadName().getText();
-    }
-
-    return null;
-  }
-
-  @Override
-  public Void visitAccessSpecifier(CPP14Parser.AccessSpecifierContext ctx) {
-    if (ctx.start.getType() == CPP14Parser.Private) {
-      currentVisibility = Visibility.PRIVATE;
-    } else if (ctx.start.getType() == CPP14Parser.Public) {
-      currentVisibility = Visibility.PUBLIC;
-    } else if (ctx.start.getType() == CPP14Parser.Protected) {
-      currentVisibility = Visibility.PROTECTED;
-    }
-    return null;
-  }
-
-  @Override
-  public Void visitMemberDeclaration(CPP14Parser.MemberDeclarationContext ctx) {
-    MemberDeclarationVisitor visitor = new MemberDeclarationVisitor();
-    ClassMember member = visitor.visit(ctx);
-    if (member != null) {
-      member.visibility = currentVisibility;
-      classDescriptorList.get(classIndex).addClassMember(member);
-    }
+  public Void visitEnumSpecifier(CPP14Parser.EnumSpecifierContext ctx) {
+    EnumVisitor enumVisitor = new EnumVisitor();
+    enumVisitor.visit(ctx);
+    EnumDescriptor enumDescriptor = enumVisitor.getEnumDescriptor();
+    System.out.println(enumDescriptor);
+    visitChildren(ctx);
     return null;
   }
 }

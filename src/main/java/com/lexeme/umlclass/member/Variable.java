@@ -1,4 +1,4 @@
-package com.lexeme.aggregate.member;
+package com.lexeme.umlclass.member;
 
 public class Variable extends ClassMember {
   @Override

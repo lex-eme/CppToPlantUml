@@ -1,14 +1,15 @@
-package com.lexeme;
+package com.lexeme.umlclass.member;
 
-import com.lexeme.aggregate.member.ClassMember;
-import com.lexeme.aggregate.member.Function;
-import com.lexeme.aggregate.member.Variable;
-import com.lexeme.aggregate.member.VariableType;
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
 
 public class MemberDeclarationVisitor extends CPP14ParserBaseVisitor<ClassMember> {
-  Function currentFunction;
+  private Function currentFunction;
+  private final Visibility visibility;
+
+  public MemberDeclarationVisitor(Visibility visibility) {
+    this.visibility = visibility;
+  }
 
   @Override
   public ClassMember visitMemberDeclaration(CPP14Parser.MemberDeclarationContext ctx) {
@@ -50,11 +51,13 @@ public class MemberDeclarationVisitor extends CPP14ParserBaseVisitor<ClassMember
     if (ctx.declaratorId() != null) {
       Variable variable = new Variable();
       variable.name = ctx.getText();
+      variable.visibility = visibility;
       return variable;
     }
 
     if (ctx.parametersAndQualifiers() != null) {
       currentFunction = new Function();
+      currentFunction.visibility = visibility;
       currentFunction.name = ctx.noPointerDeclarator().getText();
       visit(ctx.parametersAndQualifiers());
       return currentFunction;

@@ -1,8 +1,8 @@
-package com.lexeme.aggregate;
+package com.lexeme.umlclass;
 
-import com.lexeme.aggregate.member.ClassMember;
-import com.lexeme.aggregate.member.Function;
-import com.lexeme.aggregate.member.Variable;
+import com.lexeme.umlclass.member.ClassMember;
+import com.lexeme.umlclass.member.Function;
+import com.lexeme.umlclass.member.Variable;
 import java.util.ArrayList;
 import java.util.List;
 

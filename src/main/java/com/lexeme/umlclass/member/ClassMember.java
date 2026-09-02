@@ -1,4 +1,4 @@
-package com.lexeme.aggregate.member;
+package com.lexeme.umlclass.member;
 
 public abstract class ClassMember {
   public Visibility visibility = Visibility.PRIVATE;

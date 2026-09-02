@@ -1,4 +1,4 @@
-package com.lexeme.aggregate;
+package com.lexeme.umlclass;
 
 public enum ClassType {
   CLASS("class"),
