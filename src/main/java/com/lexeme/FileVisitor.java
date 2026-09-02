@@ -37,17 +37,16 @@ public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
     if (ctx.classKey() != null) {
       if (ctx.classKey().start.getType() == CPP14Parser.Class) {
         classDescriptorList.get(classIndex).classType = ClassType.CLASS;
+        currentVisibility = Visibility.PRIVATE;
       } else if (ctx.classKey().start.getType() == CPP14Parser.Struct) {
         classDescriptorList.get(classIndex).classType = ClassType.STRUCT;
+        currentVisibility = Visibility.PUBLIC;
       }
     }
 
     if (ctx.classHeadName() != null) {
       classDescriptorList.get(classIndex).name = ctx.classHeadName().getText();
     }
-
-    visitChildren(ctx);
-    currentVisibility = Visibility.PRIVATE;
 
     return null;
   }
@@ -61,7 +60,7 @@ public class FileVisitor extends CPP14ParserBaseVisitor<Void> {
     } else if (ctx.start.getType() == CPP14Parser.Protected) {
       currentVisibility = Visibility.PROTECTED;
     }
-    return super.visitAccessSpecifier(ctx);
+    return null;
   }
 
   @Override
