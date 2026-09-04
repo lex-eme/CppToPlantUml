@@ -520,7 +520,11 @@ enumName
     ;
 
 enumSpecifier
-    : enumHead LeftBrace (enumeratorList Comma?)? RightBrace
+    : unrealEnum? enumHead LeftBrace (enumeratorList Comma?)? RightBrace
+    ;
+
+unrealEnum
+    : UEnum LeftParen .*? RightParen
     ;
 
 enumHead
@@ -540,7 +544,7 @@ enumBase
     ;
 
 enumeratorList
-    : enumeratorDefinition (Comma enumeratorDefinition)*
+    : enumeratorDefinition (UMeta LeftParen .*? RightParen)? (Comma enumeratorDefinition)*
     ;
 
 enumeratorDefinition
@@ -661,7 +665,11 @@ noPointerDeclarator
     ;
 
 parametersAndQualifiers
-    : LeftParen parameterDeclarationClause? RightParen cvQualifierSeq? refQualifier? exceptionSpecification? attributeSpecifierSeq?
+    : LeftParen parameterDeclarationClause? RightParen unrealPureVirtual? cvQualifierSeq? refQualifier? exceptionSpecification? attributeSpecifierSeq?
+    ;
+
+unrealPureVirtual
+    : PureVirtual LeftParen .*? RightParen
     ;
 
 trailingReturnType
@@ -778,7 +786,11 @@ className
     ;
 
 classSpecifier
-    : classHead LeftBrace memberSpecification? RightBrace
+    : unrealClass? classHead LeftBrace memberSpecification? RightBrace
+    ;
+
+unrealClass
+    : (UClass | UStruct | UInterface) LeftParen .*? RightParen
     ;
 
 classHead
@@ -800,17 +812,25 @@ classKey
     ;
 
 memberSpecification
-    : (memberDeclaration | accessSpecifier Colon)+
+    : (generatedBody | memberDeclaration | accessSpecifier Colon)+
+    ;
+
+generatedBody
+    : GeneratedBody LeftParen .*? RightParen
     ;
 
 memberDeclaration
-    : attributeSpecifierSeq? declSpecifierSeq? memberDeclaratorList? Semi
+    : unrealProperty? attributeSpecifierSeq? declSpecifierSeq? memberDeclaratorList? Semi
     | functionDefinition
     | usingDeclaration
     | staticAssertDeclaration
     | templateDeclaration
     | aliasDeclaration
     | emptyDeclaration_
+    ;
+
+unrealProperty
+    : (UProperty | UFunction) LeftParen .*? RightParen
     ;
 
 memberDeclaratorList

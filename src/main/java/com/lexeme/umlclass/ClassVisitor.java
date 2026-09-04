@@ -28,6 +28,8 @@ public class ClassVisitor extends CPP14ParserBaseVisitor<Void> {
 
     if (ctx.classHeadName() != null) {
       classDescriptor.name = ctx.classHeadName().getText();
+    } else if (ctx.Identifier() != null) {
+      classDescriptor.name = ctx.Identifier().getText();
     }
 
     return null;

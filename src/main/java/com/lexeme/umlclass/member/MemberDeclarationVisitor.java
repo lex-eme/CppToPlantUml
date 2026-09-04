@@ -63,6 +63,10 @@ public class MemberDeclarationVisitor extends CPP14ParserBaseVisitor<ClassMember
       return currentFunction;
     }
 
+    if (ctx.noPointerDeclarator() != null) {
+      return visit(ctx.noPointerDeclarator());
+    }
+
     return null;
   }
 
