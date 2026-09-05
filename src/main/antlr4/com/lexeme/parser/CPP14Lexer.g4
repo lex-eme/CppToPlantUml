@@ -46,8 +46,6 @@ UFunction: 'UFUNCTION';
 
 UEnum: 'UENUM';
 
-UMeta: 'UMETA';
-
 UInterface: 'UINTERFACE';
 
 PureVirtual: 'PURE_VIRTUAL';
@@ -414,3 +412,5 @@ BlockComment: '/*' .*? '*/' -> skip;
 LineComment: '//' ~ [\r\n]* -> skip;
 
 GeneratedBody: 'GENERATED_BODY' LeftParen .*? RightParen -> skip;
+
+UMeta: 'UMETA' LeftParen .*? RightParen -> skip;

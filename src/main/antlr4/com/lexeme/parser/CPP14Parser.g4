@@ -544,7 +544,7 @@ enumBase
     ;
 
 enumeratorList
-    : enumeratorDefinition (UMeta LeftParen .*? RightParen)? (Comma enumeratorDefinition)*
+    : enumeratorDefinition (Comma enumeratorDefinition)*
     ;
 
 enumeratorDefinition

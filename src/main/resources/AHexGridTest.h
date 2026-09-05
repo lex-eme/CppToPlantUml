@@ -1,16 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Hex.generated.h"
 
-/**
- *
- */
-USTRUCT(BlueprintType)
-struct TRPG_PROJET_API FHex
-{
-	GENERATED_BODY()
-
+class Test {
+public:
     int x, y;
-	static FHex Directions[6];
+
+    void Test();
 };

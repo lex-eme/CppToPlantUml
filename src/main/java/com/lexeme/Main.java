@@ -38,6 +38,9 @@ public class Main {
       return;
     }
 
+    if (fileContent.startsWith("\uFEFF")) {
+      fileContent = fileContent.substring(1);
+    }
     CharStream stream = CharStreams.fromString(fileContent);
     var lexer = new CPP14Lexer(stream);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
