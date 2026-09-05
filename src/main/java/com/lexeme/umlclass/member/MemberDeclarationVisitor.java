@@ -2,10 +2,13 @@ package com.lexeme.umlclass.member;
 
 import com.lexeme.parser.CPP14Parser;
 import com.lexeme.parser.CPP14ParserBaseVisitor;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemberDeclarationVisitor extends CPP14ParserBaseVisitor<ClassMember> {
   private Function currentFunction;
   private final Visibility visibility;
+  private final List<ClassMember> memberList = new ArrayList<>();
 
   public MemberDeclarationVisitor(Visibility visibility) {
     this.visibility = visibility;
@@ -13,21 +16,27 @@ public class MemberDeclarationVisitor extends CPP14ParserBaseVisitor<ClassMember
 
   @Override
   public ClassMember visitMemberDeclaration(CPP14Parser.MemberDeclarationContext ctx) {
-    ClassMember member = null;
 
     if (ctx.memberDeclaratorList() != null) {
-      member = visit(ctx.memberDeclaratorList());
-    }
-
-    if (member != null && ctx.declSpecifierSeq() != null) {
-      for (var declSpec : ctx.declSpecifierSeq().declSpecifier()) {
-        if (declSpec.typeSpecifier() != null) {
-          member.type = declSpec.typeSpecifier().getText();
+      for (var memberDeclarator : ctx.memberDeclaratorList().memberDeclarator()) {
+      ClassMember member = visit(memberDeclarator);
+        if (member != null) {
+          memberList.add(member);
         }
       }
     }
 
-    return member;
+    if (ctx.declSpecifierSeq() != null) {
+      for (var declSpec : ctx.declSpecifierSeq().declSpecifier()) {
+        if (declSpec.typeSpecifier() != null) {
+          for (ClassMember classMember : memberList) {
+            classMember.type = declSpec.typeSpecifier().getText();
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
   @Override
@@ -95,5 +104,9 @@ public class MemberDeclarationVisitor extends CPP14ParserBaseVisitor<ClassMember
     }
 
     return null;
+  }
+
+  public List<ClassMember> getMemberList() {
+    return memberList;
   }
 }

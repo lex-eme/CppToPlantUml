@@ -50,10 +50,14 @@ public class ClassVisitor extends CPP14ParserBaseVisitor<Void> {
   @Override
   public Void visitMemberDeclaration(CPP14Parser.MemberDeclarationContext ctx) {
     MemberDeclarationVisitor visitor = new MemberDeclarationVisitor(currentVisibility);
-    ClassMember member = visitor.visit(ctx);
-    if (member != null) {
-      classDescriptor.addClassMember(member);
+    visitor.visit(ctx);
+
+    for (ClassMember member : visitor.getMemberList()) {
+      if (member != null) {
+        classDescriptor.addClassMember(member);
+      }
     }
+
     return null;
   }
 }
